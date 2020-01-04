@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h2 th:text="'Przetworzono plików: ' + ${stats.filesProcessed}"> </h2>
+    <h2 th:text="'Przetworzono plików z produktami: ' + ${stats.infoFilesProcessed}"> </h2>
+    <h2 th:text="'Przetworzono plików z opiniami: ' + ${stats.opinionFilesProcessed}"> </h2>
+    <h2 th:text="'Przetworzono produktów: ' + ${stats.infosProcessed}"> </h2>
+    <h2 th:text="'Przetworzono opinii: ' + ${stats.opinionsProcessed}"> </h2>
+
+</body>
+</html>

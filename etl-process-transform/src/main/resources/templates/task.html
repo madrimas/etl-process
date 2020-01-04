@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<form action="#" th:action="@{/task}" th:object="${stats}" method="post">
+    <h1 th:text="'W tym momencie transformacja jest: ' + ${stats.taskEnabled}"> </h1>
+    <p><input type="submit" name="save" value="Zmien" /></p>
+    <p><input type="submit" name="runOnce", value="RunOnce" /></p>
+</form>
+</body>
+</html>
