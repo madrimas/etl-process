@@ -23,7 +23,7 @@ public class OpinionFileParser {
 
     /**
      * Constructor takes html element with opinions
-     * @param plainHtml
+     * @param plainHtml plain html
      */
     public OpinionFileParser(String plainHtml) {
         this.content = Jsoup.parse(plainHtml);
