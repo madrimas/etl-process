@@ -21,12 +21,20 @@ public class LoadController {
 	OpinionController opinionController;
 
 	/**
+	 * run load process
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public void load() {
+		task.store();
+	}
+
+	/**
 	 *
 	 * @return added/modified records stats
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public Stats load() {
-		return task.store();
+	public Stats getStats() {
+		return task.getStats();
 	}
 
 	/**

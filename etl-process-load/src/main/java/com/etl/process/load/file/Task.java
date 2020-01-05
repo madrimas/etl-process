@@ -34,13 +34,16 @@ public class Task {
 	@Autowired
 	private OpinionController opinionController;
 
+	private Stats stats;
+
 //	@Scheduled(fixedDelay = 10000)
 
 	/**
 	 *
-	 * @return added/modified records stats
+	 * store records
 	 */
-	public Stats store() {
+	public void store() {
+		stats = new Stats();
 		List<Product> addedProducts = new ArrayList<>();
 		List<Product> modifiedProducts = new ArrayList<>();
 		List<Opinion> addedOpinions = new ArrayList<>();
@@ -54,7 +57,7 @@ public class Task {
 			e.printStackTrace();
 		}
 
-		return new Stats(addedProducts.size(), modifiedProducts.size(), addedOpinions.size(), modifiedOpinions.size());
+		stats.update(addedProducts.size(), modifiedProducts.size(), addedOpinions.size(), modifiedOpinions.size(), true);
 	}
 
 	/**
@@ -68,6 +71,7 @@ public class Task {
 	private void processFile(List<Product> addedProducts, List<Product> modifiedProducts, List<Opinion> addedOpinions, List<Opinion> modifiedOpinions, Path f) {
 		try {
 			storeRecord(addedProducts, modifiedProducts, addedOpinions, modifiedOpinions, f);
+			stats.update(addedProducts.size(), modifiedProducts.size(), addedOpinions.size(), modifiedOpinions.size(), false);
 			moveFile(f, config.getStoredFilesDirectoryPath().resolve(f.getFileName()));
 		} catch (IOException ioe) {
 			System.out.println("Failed to move file " + f.toString());
@@ -147,5 +151,9 @@ public class Task {
 		}
 
 		Files.move(input, output);
+	}
+
+	public Stats getStats() {
+		return stats;
 	}
 }
