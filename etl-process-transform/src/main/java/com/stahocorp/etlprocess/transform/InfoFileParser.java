@@ -155,6 +155,7 @@ public class InfoFileParser {
     /**
      * Get product specification from jsoup element
      * @param inf element which contains product specification
+     * @return map
      */
     private Map<String, String> extractSpecificationFromInfoItem(Elements inf) {
         Map<String,String> tempMap = new LinkedHashMap<>();

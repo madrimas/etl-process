@@ -12,7 +12,7 @@ public class FileMover {
      * This method is used to moving file from one directory to another. It also creates output directory if it doesn't exist.
      * @param i input path
      * @param o output path
-     * @throws IOException
+     * @throws IOException if input directory doesn't exist
      */
     public static void move(Path i, Path o) throws IOException {
         if (!Files.exists(i.getParent())) {

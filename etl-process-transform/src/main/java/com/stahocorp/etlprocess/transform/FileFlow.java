@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * <h1>Defines flow of a file through parsers</h1>
+ * Defines flow of a file through parsers
  * This class takes filePath of file which should be parsed into json object.
  * Several things happen, such as parsing file name and processing given html input.
  */
@@ -28,7 +28,7 @@ public class FileFlow {
      *
      * @param filePath path to processed file
      * @return file as json object
-     * @throws IOException
+     * @throws IOException if an I/O error occurs reading from the stream
      */
     public static String processFile(Path filePath) throws IOException {
         String data = new String(Files.readAllBytes(filePath));
@@ -95,7 +95,7 @@ public class FileFlow {
      * @param outputDirPath path of output folder (defined in application.properties)
      * @param filename name of original file
      * @param timeStamp combination of hour, minutes and seconds of processing.
-     * @throws IOException
+     * @throws IOException if an I/O error occurs
      */
     public static void createFileAndSaveString(String content, Path outputDirPath, String filename, String timeStamp) throws IOException {
         String newFilename = filename + "_out";
