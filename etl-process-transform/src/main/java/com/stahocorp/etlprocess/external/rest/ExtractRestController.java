@@ -2,10 +2,8 @@ package com.stahocorp.etlprocess.external.rest;
 
 import com.stahocorp.etlprocess.config.EtlProperties;
 import com.stahocorp.etlprocess.external.model.ExtractStatistics;
-import com.stahocorp.etlprocess.external.model.LoadStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,8 +32,12 @@ public class ExtractRestController {
                 ':' +
                 etlProperties.getExtractProcessPort() +
                 etlProperties.getExtractProcessStartCommand();
+        try {
+            restTemplate.getForObject(stringBuilder, Object.class);
 
-        restTemplate.getForObject(stringBuilder, Object.class);
+        } catch (Exception e){
+            //do nothing
+        }
     }
 
     public ExtractStatistics getExtractStats(RestTemplate restTemplate){

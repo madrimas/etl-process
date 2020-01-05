@@ -5,6 +5,7 @@ import com.stahocorp.etlprocess.external.model.LoadStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,13 +21,28 @@ public class LoadRestController {
     }
 
 
-    public LoadStatistics runLoadAndGetStats(RestTemplate restTemplate){
+    public void runLoad(RestTemplate restTemplate){
         String stringBuilder = "http://" +
                 etlProperties.getLoadProcessUrl() +
                 ':' +
                 etlProperties.getLoadProcessPort() +
                 '/' +
                 etlProperties.getLoadProcessCommand();
-        return restTemplate.getForObject(stringBuilder, LoadStatistics.class);
+        HttpEntity<Object> request = new HttpEntity<>("");
+        restTemplate.postForObject(stringBuilder, request, Object.class);
     }
+
+    public LoadStatistics getStats(RestTemplate restTemplate) {
+        String stringBuilder = "http://" +
+                etlProperties.getLoadProcessUrl() +
+                ':' +
+                etlProperties.getLoadProcessPort() +
+                '/' +
+                etlProperties.getLoadProcessCommand();
+        return  restTemplate.getForObject(stringBuilder, LoadStatistics.class);
+    }
+
+
+
+
 }

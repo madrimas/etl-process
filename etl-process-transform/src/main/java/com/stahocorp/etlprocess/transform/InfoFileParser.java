@@ -65,7 +65,8 @@ public class InfoFileParser {
      * @param main element which contains product manufacturer
      */
     private void getProductManufacturer(Elements main) {
-        String name = main.select("a[class=prod-brand]").text();
+        String name = main.select("h1[class=prod-name]").text();
+        name = name.split(" ")[2];
         infoItem.setManufacturer(name);
     }
 

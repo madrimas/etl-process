@@ -7,11 +7,8 @@ import com.stahocorp.etlprocess.external.model.LoadStatistics;
 import com.stahocorp.etlprocess.external.rest.ExtractRestController;
 import com.stahocorp.etlprocess.external.rest.LoadRestController;
 import com.stahocorp.etlprocess.services.WatcherTask;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,8 +70,7 @@ public class TaskController {
     @PostMapping(path = "/task", params = "runLoad")
     public String runLoad(Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        LoadStatistics ls = loadRestController.runLoadAndGetStats(restTemplate);
-        EtlStatistics.setLoadStatistics(ls);
+        loadRestController.runLoad(restTemplate);
         model.addAttribute("stats", getTransformationStats());
         model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
         model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
@@ -87,6 +83,10 @@ public class TaskController {
         RestTemplate restTemplate = ExtractRestController.restTemplate(rtb);
         ExtractStatistics extractStatistics = extractRestController.getExtractStats(restTemplate);
 
+        RestTemplate restTemplate1 = new RestTemplate();
+        LoadStatistics loadStatistics = loadRestController.getStats(restTemplate1);
+
+        EtlStatistics.setLoadStatistics(loadStatistics);
         EtlStatistics.setExtractStatistics(extractStatistics);
 
         model.addAttribute("stats", getTransformationStats());

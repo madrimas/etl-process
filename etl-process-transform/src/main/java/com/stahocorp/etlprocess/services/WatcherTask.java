@@ -42,6 +42,7 @@ public class WatcherTask {
      */
     public void readAndTransformOnce() {
         try (Stream<Path> walk = Files.walk(etlProperties.getInputDirAsPath())) {
+            EtlStatistics.resetStats();
 
             List<Path> result = walk.filter(Files::isRegularFile).collect(Collectors.toList());
 
