@@ -1,5 +1,6 @@
 package data.warehouse.service;
 
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,24 +12,50 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 
+/**
+ * Main controller to handle requests
+ */
 @RestController
 public class Scrapper {
 
+    /**
+     * Field to keep host name, value come from src/main/java/resources/application.properties
+     */
     @Value(value = "${host.name}")
     private String hostname;
 
+    /**
+     * Field to keep path for file storage, value come from src/main/java/resources/application.properties
+     */
     @Value(value = "${path.to.write.files}")
     private String fileStoragePath;
 
+    /**
+     * Field to keep link from which scrapper will start getting content, value come from src/main/java/resources/application.properties
+     */
     @Value(value = "${link.to.scrap}")
     private String linkToScrapFrom;
 
+    /**
+     * Map which contains statistics about scrapper
+     */
+    private Map<String, Object> statistics = Map.of("time", 0, "productFilesScrapped", 0, "opinionFilesScrapped", 0, "isFinished", false);
+
+    /**
+     * Main controller which collects all the data about products and opinions, then write it to file storage specified in {@link Scrapper#fileStoragePath}. 
+     * Files are named in convention: morele-{productId}-{timestamp}-(info/opinions).html
+     * Also counts statistics about progress and keep them in {@link Scrapper#statistics}
+     */
     @RequestMapping("/")
     public void scrap() {
+        var processTimeStart = Instant.now();
+        var productsAmount = 0;
+        var opinionsAmount = 0;
+        statistics.put("isFinished", false);
         try {
             var dateString = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
@@ -39,6 +66,7 @@ public class Scrapper {
 
                 var path = Paths.get(fileStoragePath + "morele-" + productId + "-" + dateString + "-info.html");
                 Files.write(path, mainBlock.toString().getBytes());
+                productsAmount++;
 
                 var productOpinions = getOpinions(document);
                 if (!productOpinions.isEmpty()) {
@@ -48,13 +76,40 @@ public class Scrapper {
                         Files.write(path, opinion.getBytes(), StandardOpenOption.APPEND);
                     }
                     Files.write(path, "</opinions>".getBytes(), StandardOpenOption.APPEND);
+                    opinionsAmount++;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        var timeElapsed = Duration.between(processTimeStart, Instant.now()).toSeconds();
+        statistics.put("time", timeElapsed);
+        statistics.put("productFilesScrapped", productsAmount);
+        statistics.put("opinionFilesScrapped", opinionsAmount);
+        statistics.put("isFinished", true);
     }
 
+    /**
+     * Method to get statistics about web scrapper work
+     *
+     * @return statistic of web scrapping in json format which returns time in seconds, product and opinions files amount
+     */
+    @RequestMapping("/stats")
+    public String getStatistics() {
+        var json = new JSONObject();
+        json.put("time", statistics.get("time"));
+        json.put("productFilesScrapped", statistics.get("productFilesScrapped"));
+        json.put("opinionFilesScrapped", statistics.get("opinionFilesScrapped"));
+        json.put("isFinished", statistics.get("isFinished"));
+        return json.toString();
+    }
+
+    /**
+     * Method to get all links from web service from {@link Scrapper#linkToScrapFrom} field, goes page by page on site
+     *
+     * @return links to all products scrapped page by page
+     * @throws IOException if can't connect to website
+     */
     private List<String> getAllLinksToProducts() throws IOException {
         var links = new ArrayList<String>();
         var mainDocument = Jsoup.connect(linkToScrapFrom + "1/").get();
@@ -67,6 +122,12 @@ public class Scrapper {
         return links;
     }
 
+    /**
+     * Method to get opinions about product
+     *
+     * @param document - html document about product which contains opinions about it
+     * @return html document ready to parse by transformer or empty list if there is no opinions about product
+     */
     private List<String> getOpinions(Document document) {
         var result = new ArrayList<String>();
         var opinions = document.select("div.reviews-item");
