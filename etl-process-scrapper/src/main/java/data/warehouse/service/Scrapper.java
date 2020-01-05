@@ -43,7 +43,7 @@ public class Scrapper {
     /**
      * Map which contains statistics about scrapper
      */
-    private Map<String, Object> statistics = Map.of("time", 0, "productFilesScrapped", 0, "opinionFilesScrapped", 0, "isFinished", false);
+    private Map<String, Object> statistics = new HashMap<>(Map.of("time", 0, "productFilesScrapped", 0, "opinionFilesScrapped", 0, "isFinished", false));
 
     /**
      * Main controller which collects all the data about products and opinions, then write it to file storage specified in {@link Scrapper#fileStoragePath}. 
@@ -67,6 +67,7 @@ public class Scrapper {
                 var path = Paths.get(fileStoragePath + "morele-" + productId + "-" + dateString + "-info.html");
                 Files.write(path, mainBlock.toString().getBytes());
                 productsAmount++;
+                statistics.put("productFilesScrapped", productsAmount);
 
                 var productOpinions = getOpinions(document);
                 if (!productOpinions.isEmpty()) {
@@ -77,15 +78,15 @@ public class Scrapper {
                     }
                     Files.write(path, "</opinions>".getBytes(), StandardOpenOption.APPEND);
                     opinionsAmount++;
+                    statistics.put("opinionFilesScrapped", opinionsAmount);
                 }
+                var timeElapsed = Duration.between(processTimeStart, Instant.now()).toSeconds();
+                statistics.put("time", timeElapsed);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        var timeElapsed = Duration.between(processTimeStart, Instant.now()).toSeconds();
-        statistics.put("time", timeElapsed);
-        statistics.put("productFilesScrapped", productsAmount);
-        statistics.put("opinionFilesScrapped", opinionsAmount);
+
         statistics.put("isFinished", true);
     }
 

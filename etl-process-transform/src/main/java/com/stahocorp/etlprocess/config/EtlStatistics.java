@@ -1,5 +1,8 @@
 package com.stahocorp.etlprocess.config;
 
+import com.stahocorp.etlprocess.external.model.ExtractStatistics;
+import com.stahocorp.etlprocess.external.model.LoadStatistics;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -11,6 +14,26 @@ public class EtlStatistics {
     public static AtomicInteger opinionFilesProcessed = new AtomicInteger(0);
     public static AtomicInteger infosProcessed = new AtomicInteger(0);
     public static AtomicInteger opinionsProcessed = new AtomicInteger(0);
+
+    private static LoadStatistics loadStatistics = new LoadStatistics(0,0,0,0);
+
+    private static ExtractStatistics extractStatistics = new ExtractStatistics(0,0,0,true);
+
+    public static LoadStatistics getLoadStatistics() {
+        return loadStatistics;
+    }
+
+    public static void setLoadStatistics(LoadStatistics loadStatistics) {
+        EtlStatistics.loadStatistics = loadStatistics;
+    }
+
+    public static ExtractStatistics getExtractStatistics() {
+        return extractStatistics;
+    }
+
+    public static void setExtractStatistics(ExtractStatistics extractStatistics) {
+        EtlStatistics.extractStatistics = extractStatistics;
+    }
 
     /**
      * It resets all statistics of processing of files.

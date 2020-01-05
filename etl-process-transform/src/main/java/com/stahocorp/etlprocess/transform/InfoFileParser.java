@@ -94,7 +94,7 @@ public class InfoFileParser {
      */
     private void getProductPriceFromSide(Elements side) {
         String tempPrice = side.select("div[class=price-new]").attr("content");
-        infoItem.setPrice(Double.parseDouble(tempPrice));
+        if(!tempPrice.isEmpty()) infoItem.setPrice(Double.parseDouble(tempPrice));
     }
 
     /**
@@ -109,6 +109,7 @@ public class InfoFileParser {
             infoItem.setDiscount(false);
         } else {
             infoItem.setDiscount(true);
+            if(priceDiscount.contains(",")) priceDiscount = priceDiscount.replace(',', '.');
             infoItem.setPriceDiscount(Double.parseDouble(priceDiscount));
         }
 

@@ -20,13 +20,18 @@
         </tr>
         <tr>
             <td>Extract</td>
-            <td><p><input type="submit" name="runOnce", value="Uruchom transformacje" /></p></td>
+            <td><p><input type="submit" name="runExtract" value="Uruchom pobieranie" /></p></td>
+        </tr>
+        <tr>
+            <td>Transform</td>
+            <td><p><input type="submit" name="runTransform" value="Uruchom transformacje" /></p></td>
         </tr>
         <tr>
             <td>Load</td>
-            <td><p><input type="submit" name="runLoad", value="Uruchom load" /></p></td>
+            <td><p><input type="submit" name="runLoad" value="Uruchom load" /></p></td>
         </tr>
     </table>
+    <p><input type="submit" name="refresh" value="Odśwież status" /></p>
 <!--    <h3 th:text="'W tym momencie transformacja jest: ' + ${stats.taskEnabled}"> </h3>-->
 <!--    <p><input type="submit" name="save" value="Zmien" /></p>-->
 </form>
@@ -37,15 +42,14 @@
     </tr>
     <tr>
         <td>Extract</td>
-        <td></td>
-    </tr>
+        <td th:utext="'Zakończono przetwarzanie:' + ${extractStats.isFinished} + '<br />' + 'Wyciągniętych produktów: ' + ${extractStats.productFilesScrapped} + '<br />' + 'Wyciągniętych opinii: ' + ${extractStats.opinionFilesScrapped} + '<br />' + 'Czas od startu scrappingu (s): ' + ${extractStats.time}"></td>    </tr>
     <tr>
         <td>Transform</td>
-        <td></td>
+        <td th:utext="'Przetworzonych plików:' + ${stats.filesProcessed} + '<br />' + 'Pliki z produktami: ' + ${stats.infoFilesProcessed} + '<br />' + 'Ilość produktów: ' + ${stats.infosProcessed} + '<br />' + 'Plików z opiniami: ' + ${stats.opinionFilesProcessed} + '<br />' + 'Przetworzonych opinii: ' + ${stats.opinionsProcessed}"></td>
     </tr>
     <tr>
         <td>Load</td>
-        <td th:utext="'Dodanych opinii:' + ${loadStats.addedOpinionsAmount} + '<br />' + 'Dodanych produktów: ' + ${loadStats.addedProductsAmount}"></td>
+        <td th:utext="'Dodanych opinii:' + ${loadStats.addedOpinionsAmount} + '<br />' + 'Dodanych produktów: ' + ${loadStats.addedProductsAmount} + '<br />' + 'Zmodyfikowanych opinii: ' + ${loadStats.modifiedOpinionsAmount} + '<br />' + 'Zmodyfikowanych produktów: ' + ${loadStats.modifiedProductsAmount}"></td>
     </tr>
 </table>
 </body>

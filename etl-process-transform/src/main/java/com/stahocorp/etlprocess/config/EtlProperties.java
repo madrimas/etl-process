@@ -32,6 +32,34 @@ public class EtlProperties {
     @Value("${external.load.rest.start}")
     private String loadProcessCommand;
 
+    @Value("${external.extract.rest.host}")
+    private String extractProcessHost;
+
+    @Value("${external.extract.rest.port}")
+    private String extractProcessPort;
+
+    @Value("${external.extract.rest.start}")
+    private String extractProcessStartCommand;
+
+    @Value("${external.extract.rest.stats}")
+    private String extractProcessStatsCommand;
+
+    public String getExtractProcessHost() {
+        return extractProcessHost;
+    }
+
+    public String getExtractProcessPort() {
+        return extractProcessPort;
+    }
+
+    public String getExtractProcessStartCommand() {
+        return extractProcessStartCommand;
+    }
+
+    public String getExtractProcessStatsCommand() {
+        return extractProcessStatsCommand;
+    }
+
     public String getLoadProcessCommand() {
         return loadProcessCommand;
     }
