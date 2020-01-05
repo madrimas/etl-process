@@ -22,7 +22,7 @@ public class Config {
 	 * @return input files directory path
 	 */
 	public Path getInputFilesDirectoryPath(){
-		return Paths.get(".", inputFilesDirectory);
+		return Paths.get(inputFilesDirectory);
 	}
 
 	/**
@@ -30,6 +30,6 @@ public class Config {
 	 * @return stored files directory path
 	 */
 	public Path getStoredFilesDirectoryPath(){
-		return Paths.get(".", storedFilesDirectory);
+		return Paths.get(storedFilesDirectory);
 	}
 }

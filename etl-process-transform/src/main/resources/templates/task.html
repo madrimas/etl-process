@@ -3,13 +3,50 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 
 <form action="#" th:action="@{/task}" th:object="${stats}" method="post">
-    <h1 th:text="'W tym momencie transformacja jest: ' + ${stats.taskEnabled}"> </h1>
-    <p><input type="submit" name="save" value="Zmien" /></p>
-    <p><input type="submit" name="runOnce", value="RunOnce" /></p>
+    <h1 th:text="'To strona główna procesu ETL'"></h1>
+    <table style="width:80%">
+        <tr>
+            <th>Proces</th>
+            <th>Uruchom raz</th>
+        </tr>
+        <tr>
+            <td>Extract</td>
+            <td><p><input type="submit" name="runOnce", value="Uruchom transformacje" /></p></td>
+        </tr>
+        <tr>
+            <td>Load</td>
+            <td><p><input type="submit" name="runLoad", value="Uruchom load" /></p></td>
+        </tr>
+    </table>
+<!--    <h3 th:text="'W tym momencie transformacja jest: ' + ${stats.taskEnabled}"> </h3>-->
+<!--    <p><input type="submit" name="save" value="Zmien" /></p>-->
 </form>
+<table>
+    <tr>
+        <th>Proces</th>
+        <th>Statistics</th>
+    </tr>
+    <tr>
+        <td>Extract</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Transform</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Load</td>
+        <td th:utext="'Dodanych opinii:' + ${loadStats.addedOpinionsAmount} + '<br />' + 'Dodanych produktów: ' + ${loadStats.addedProductsAmount}"></td>
+    </tr>
+</table>
 </body>
 </html>
