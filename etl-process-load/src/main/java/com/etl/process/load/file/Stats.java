@@ -10,9 +10,14 @@ public class Stats {
 	private int modifiedProductsAmount;
 	private int addedOpinionsAmount;
 	private int modifiedOpinionsAmount;
-	private boolean finished = false;
+	private boolean finished;
 
 	public Stats() {
+		this.addedProductsAmount = 0;
+		this.modifiedProductsAmount = 0;
+		this.addedOpinionsAmount = 0;
+		this.modifiedOpinionsAmount = 0;
+		this.finished = false;
 	}
 
 	/**

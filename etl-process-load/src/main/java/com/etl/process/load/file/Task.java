@@ -34,7 +34,7 @@ public class Task {
 	@Autowired
 	private OpinionController opinionController;
 
-	private Stats stats;
+	private Stats stats = new Stats();
 
 //	@Scheduled(fixedDelay = 10000)
 
