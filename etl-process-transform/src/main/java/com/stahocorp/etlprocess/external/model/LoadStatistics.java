@@ -16,6 +16,7 @@ public class LoadStatistics {
      * @param modifiedProductsAmount - modified Products Amount
      * @param addedOpinionsAmount - added Opinions Amount
      * @param modifiedOpinionsAmount - modified Opinions Amount
+     * @param finished - true if process is finished, false if not
      */
     public LoadStatistics(int addedProductsAmount, int modifiedProductsAmount, int addedOpinionsAmount, int modifiedOpinionsAmount, boolean finished) {
         this.addedProductsAmount = addedProductsAmount;
