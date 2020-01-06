@@ -54,6 +54,6 @@
         <td th:utext="'Zakończono ładowanie:' + ${loadStats.finished} + '<br />' + 'Dodanych opinii:' + ${loadStats.addedOpinionsAmount} + '<br />' + 'Dodanych produktów: ' + ${loadStats.addedProductsAmount} + '<br />' + 'Zmodyfikowanych opinii: ' + ${loadStats.modifiedOpinionsAmount} + '<br />' + 'Zmodyfikowanych produktów: ' + ${loadStats.modifiedProductsAmount}"></td>
     </tr>
 </table>
-<p><input type="submit" name="refresh" value="Przeglądaj dane" /></p> <!--TODO-->
+<p><input type="button" value="Przeglądaj dane" onclick="window.open('http://localhost:8081/')" /></p>
 </body>
 </html>
