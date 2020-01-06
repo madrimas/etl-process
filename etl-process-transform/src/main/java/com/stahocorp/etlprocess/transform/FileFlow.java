@@ -100,6 +100,10 @@ public class FileFlow {
     public static void createFileAndSaveString(String content, Path outputDirPath, String filename, String timeStamp) throws IOException {
         String newFilename = filename + "_out";
 
+        if(!Files.exists(outputDirPath)){
+            Files.createDirectories(outputDirPath);
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputDirPath.toString() + "/" + newFilename + "_" + timeStamp + FILE_EXTENSION))) {
             writer.write(content);
         }
