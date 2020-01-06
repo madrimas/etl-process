@@ -3,10 +3,12 @@ package data.warehouse.service;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -46,7 +48,7 @@ public class Scrapper {
     private Map<String, Object> statistics = new HashMap<>(Map.of("time", 0, "productFilesScrapped", 0, "opinionFilesScrapped", 0, "isFinished", false));
 
     /**
-     * Main controller which collects all the data about products and opinions, then write it to file storage specified in {@link Scrapper#fileStoragePath}. 
+     * Main controller which collects all the data about products and opinions, then write it to file storage specified in {@link Scrapper#fileStoragePath}.
      * Files are named in convention: morele-{productId}-{timestamp}-(info/opinions).html
      * Also counts statistics about progress and keep them in {@link Scrapper#statistics}
      */
@@ -86,7 +88,6 @@ public class Scrapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         statistics.put("isFinished", true);
     }
 
@@ -136,6 +137,14 @@ public class Scrapper {
             result.add("<opinion>" + opinion.toString() + "</opinion>");
         });
         return result;
+    }
+
+    /**
+     * Creating storage path if not exists, runs on startup
+     */
+    @Autowired
+    private void setup() {
+        new File(fileStoragePath).mkdirs();
     }
 
 }
