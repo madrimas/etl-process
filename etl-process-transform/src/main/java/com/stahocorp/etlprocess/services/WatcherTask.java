@@ -6,6 +6,7 @@ import com.stahocorp.etlprocess.files.FileMover;
 import com.stahocorp.etlprocess.transform.FileFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ public class WatcherTask {
     /**
      * This method is scanning input folder, triggers processing, saves results and moves processed files to done folder.
      */
+    @Async
     public void readAndTransformOnce() {
         try (Stream<Path> walk = Files.walk(etlProperties.getInputDirAsPath())) {
             EtlStatistics.resetStats();

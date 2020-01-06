@@ -22,27 +22,29 @@ public class LoadRestController {
 
 
     public void runLoad(RestTemplate restTemplate){
-        String stringBuilder = "http://" +
-                etlProperties.getLoadProcessUrl() +
-                ':' +
-                etlProperties.getLoadProcessPort() +
-                '/' +
-                etlProperties.getLoadProcessCommand();
+        String url = getLoadUrl();
         HttpEntity<Object> request = new HttpEntity<>("");
-        restTemplate.postForObject(stringBuilder, request, Object.class);
+        restTemplate.postForObject(url, request, Object.class);
     }
 
     public LoadStatistics getStats(RestTemplate restTemplate) {
-        String stringBuilder = "http://" +
+        String url = getLoadUrl();
+        return  restTemplate.getForObject(url, LoadStatistics.class);
+    }
+
+    public void cleanDatabase(RestTemplate restTemplate) {
+        String url = getLoadUrl();
+        restTemplate.delete(url);
+    }
+
+    private String getLoadUrl() {
+        return "http://" +
                 etlProperties.getLoadProcessUrl() +
                 ':' +
                 etlProperties.getLoadProcessPort() +
                 '/' +
                 etlProperties.getLoadProcessCommand();
-        return  restTemplate.getForObject(stringBuilder, LoadStatistics.class);
     }
-
-
 
 
 }

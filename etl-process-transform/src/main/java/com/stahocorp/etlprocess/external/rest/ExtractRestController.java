@@ -35,9 +35,7 @@ public class ExtractRestController {
         try {
             restTemplate.getForObject(stringBuilder, Object.class);
 
-        } catch (Exception e){
-            //do nothing
-        }
+        } catch (Exception ignore) { }
     }
 
     public ExtractStatistics getExtractStats(RestTemplate restTemplate){

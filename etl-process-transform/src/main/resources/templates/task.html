@@ -13,10 +13,14 @@
 
 <form action="#" th:action="@{/task}" th:object="${stats}" method="post">
     <h1 th:text="'To strona główna procesu ETL'"></h1>
-    <table style="width:80%">
+    <table>
         <tr>
             <th>Proces</th>
             <th>Uruchom raz</th>
+        </tr>
+        <tr>
+            <td>ETL PROCESS</td>
+            <td><p><input type="submit" name="triggerEtl" value="Uruchom pełen proces ETL" /></p></td>
         </tr>
         <tr>
             <td>Extract</td>
@@ -28,12 +32,10 @@
         </tr>
         <tr>
             <td>Load</td>
-            <td><p><input type="submit" name="runLoad" value="Uruchom load" /></p></td>
+            <td><p><input type="submit" name="runLoad" value="Uruchom load" /></p><br /><p><input type="submit" name="cleanDb" value="Wyczyść bazę" /></p></td>
         </tr>
     </table>
     <p><input type="submit" name="refresh" value="Odśwież status" /></p>
-<!--    <h3 th:text="'W tym momencie transformacja jest: ' + ${stats.taskEnabled}"> </h3>-->
-<!--    <p><input type="submit" name="save" value="Zmien" /></p>-->
 </form>
 <table>
     <tr>

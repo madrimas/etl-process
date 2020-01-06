@@ -2,6 +2,7 @@ package com.stahocorp.etlprocess.config;
 
 import com.stahocorp.etlprocess.external.model.ExtractStatistics;
 import com.stahocorp.etlprocess.external.model.LoadStatistics;
+import com.stahocorp.etlprocess.mvc.Stats;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,5 +45,20 @@ public class EtlStatistics {
         opinionsProcessed.set(0);
         infosFilesProcessed.set(0);
         opinionFilesProcessed.set(0);
+    }
+
+    /**
+     * Converts statistics to view model.
+     *
+     * @return view model of stats
+     */
+    public static Stats toStats() {
+        var x = new Stats();
+        x.setFilesProcessed(EtlStatistics.filesProcessed.get());
+        x.setInfoFilesProcessed(EtlStatistics.infosFilesProcessed.get());
+        x.setOpinionFilesProcessed(EtlStatistics.opinionFilesProcessed.get());
+        x.setInfosProcessed(EtlStatistics.infosProcessed.get());
+        x.setOpinionsProcessed(EtlStatistics.opinionsProcessed.get());
+        return x;
     }
 }

@@ -30,53 +30,93 @@ public class TaskController {
     @Autowired
     private ExtractRestController extractRestController;
 
+    /**
+     * It returns inital data for main view in application
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
     @GetMapping("/task")
     public String task(Model model) {
-        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
-        model.addAttribute("stats", getTransformationStats());
-        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
+        fillModelWithStatistics(model);
         return "task";
     }
 
-    @PostMapping(path = "/task", params = "save")
-    public String taskSubmit(Model model) {
-        etlProperties.setTransformationEnabled(!etlProperties.isTransformationEnabled());
-        model.addAttribute("stats", getTransformationStats());
-        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
-        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
-        return "task";
-    }
-
+    /**
+     * This method is calling extract service and triggers process to scrap data from website.
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
     @PostMapping(path = "/task", params = "runExtract")
     public String runExtract(Model model) {
         RestTemplateBuilder rtp = new RestTemplateBuilder();
         RestTemplate restTemplate = ExtractRestController.restTemplateWithTimeout(rtp);
         extractRestController.runExtract(restTemplate);
-        model.addAttribute("stats", getTransformationStats());
-        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
-        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
+        fillModelWithStatistics(model);
         return "task";
     }
 
+    /**
+     * This method is calling transform service and triggers process to transform data from input directory.
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
     @PostMapping(path = "/task", params = "runTransform")
     public String runOnce(Model model) {
         watcherTask.readAndTransformOnce();
-        model.addAttribute("stats", getTransformationStats());
-        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
-        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
+        fillModelWithStatistics(model);
         return "task";
     }
 
+    /**
+     * This method is calling load service and triggers process to load data from input directory to database.
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
     @PostMapping(path = "/task", params = "runLoad")
     public String runLoad(Model model) {
         RestTemplate restTemplate = new RestTemplate();
         loadRestController.runLoad(restTemplate);
-        model.addAttribute("stats", getTransformationStats());
-        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
-        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
+        fillModelWithStatistics(model);
         return "task";
     }
 
+    /**
+     * This method is calling load service and triggers cleaning of database.
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
+    @PostMapping(path = "/task", params = "cleanDb")
+    public String cleanDb(Model model) {
+        RestTemplate restTemplate = new RestTemplate();
+        loadRestController.cleanDatabase(restTemplate);
+        fillModelWithStatistics(model);
+        return "task";
+    }
+
+    /**
+     * This method is calling all services to perform ETL process from the beginning to the end.
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
+    //TODO: implementation of whole processing
+    @PostMapping(path = "/task", params = "triggerEtl")
+    public String triggerEtl(Model model) {
+        fillModelWithStatistics(model);
+        return "task";
+    }
+
+    /**
+     * This method is calling all services to gain its statistics and display them in GUI.
+     *
+     * @param model transfers data from controller to view
+     * @return name of view resolved by thymeleaf framework
+     */
     @PostMapping(path = "/task", params = "refresh")
     public String refresh(Model model) {
         RestTemplateBuilder rtb = new RestTemplateBuilder();
@@ -89,27 +129,18 @@ public class TaskController {
         EtlStatistics.setLoadStatistics(loadStatistics);
         EtlStatistics.setExtractStatistics(extractStatistics);
 
-        model.addAttribute("stats", getTransformationStats());
-        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
-        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
+        fillModelWithStatistics(model);
         return "task";
     }
 
-
-    @GetMapping("/stats")
-    public String getStats(Model model) {
-        model.addAttribute("stats", getTransformationStats());
-        return "stats";
-    }
-
-    private Stats getTransformationStats() {
-        var x = new Stats();
-        x.setTaskEnabled(etlProperties.isTransformationEnabled());
-        x.setFilesProcessed(EtlStatistics.filesProcessed.get());
-        x.setInfoFilesProcessed(EtlStatistics.infosFilesProcessed.get());
-        x.setOpinionFilesProcessed(EtlStatistics.opinionFilesProcessed.get());
-        x.setInfosProcessed(EtlStatistics.infosProcessed.get());
-        x.setOpinionsProcessed(EtlStatistics.opinionsProcessed.get());
-        return x;
+    /**
+     * Method used for filling model with statistics from services.
+     *
+     * @param model transfers data from controller to view
+     */
+    private void fillModelWithStatistics(Model model) {
+        model.addAttribute("stats", EtlStatistics.toStats());
+        model.addAttribute("loadStats", EtlStatistics.getLoadStatistics());
+        model.addAttribute("extractStats", EtlStatistics.getExtractStatistics());
     }
 }
