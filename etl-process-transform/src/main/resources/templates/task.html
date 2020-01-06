@@ -44,14 +44,14 @@
     </tr>
     <tr>
         <td>Extract</td>
-        <td th:utext="'Zakończono przetwarzanie:' + ${extractStats.isFinished} + '<br />' + 'Wyciągniętych produktów: ' + ${extractStats.productFilesScrapped} + '<br />' + 'Wyciągniętych opinii: ' + ${extractStats.opinionFilesScrapped} + '<br />' + 'Czas od startu scrappingu (s): ' + ${extractStats.time}"></td>    </tr>
+        <td th:utext="'Zakończono crawlowanie:' + ${extractStats.isFinished} + '<br />' + 'Wyciągniętych produktów: ' + ${extractStats.productFilesScrapped} + '<br />' + 'Wyciągniętych opinii: ' + ${extractStats.opinionFilesScrapped} + '<br />' + 'Czas od startu scrappingu (s): ' + ${extractStats.time}"></td>    </tr>
     <tr>
         <td>Transform</td>
-        <td th:utext="'Przetworzonych plików:' + ${stats.filesProcessed} + '<br />' + 'Pliki z produktami: ' + ${stats.infoFilesProcessed} + '<br />' + 'Ilość produktów: ' + ${stats.infosProcessed} + '<br />' + 'Plików z opiniami: ' + ${stats.opinionFilesProcessed} + '<br />' + 'Przetworzonych opinii: ' + ${stats.opinionsProcessed}"></td>
+        <td th:utext="'Zakończono transformacje:' + ${stats.finished} + '<br />' + 'Przetworzonych plików:' + ${stats.filesProcessed} + '<br />' + 'Pliki z produktami: ' + ${stats.infoFilesProcessed} + '<br />' + 'Ilość produktów: ' + ${stats.infosProcessed} + '<br />' + 'Plików z opiniami: ' + ${stats.opinionFilesProcessed} + '<br />' + 'Przetworzonych opinii: ' + ${stats.opinionsProcessed}"></td>
     </tr>
     <tr>
         <td>Load</td>
-        <td th:utext="'Dodanych opinii:' + ${loadStats.addedOpinionsAmount} + '<br />' + 'Dodanych produktów: ' + ${loadStats.addedProductsAmount} + '<br />' + 'Zmodyfikowanych opinii: ' + ${loadStats.modifiedOpinionsAmount} + '<br />' + 'Zmodyfikowanych produktów: ' + ${loadStats.modifiedProductsAmount}"></td>
+        <td th:utext="'Zakończono ładowanie:' + ${loadStats.finished} + '<br />' + 'Dodanych opinii:' + ${loadStats.addedOpinionsAmount} + '<br />' + 'Dodanych produktów: ' + ${loadStats.addedProductsAmount} + '<br />' + 'Zmodyfikowanych opinii: ' + ${loadStats.modifiedOpinionsAmount} + '<br />' + 'Zmodyfikowanych produktów: ' + ${loadStats.modifiedProductsAmount}"></td>
     </tr>
 </table>
 </body>

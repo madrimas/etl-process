@@ -5,10 +5,8 @@ import com.stahocorp.etlprocess.config.EtlStatistics;
 import com.stahocorp.etlprocess.files.FileMover;
 import com.stahocorp.etlprocess.transform.FileFlow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -35,14 +33,21 @@ public class WatcherTask {
     public void readAndTransformFile() {
         if(!etlProperties.isTransformationEnabled()) return;
 
-        readAndTransformOnce();
+        readAndTransformAsync();
+    }
+
+    /**
+     * Async execution of read and transform method. Used mostly in gui.
+     */
+    @Async
+    public void readAndTransformAsync() {
+        readAndTransform();
     }
 
     /**
      * This method is scanning input folder, triggers processing, saves results and moves processed files to done folder.
      */
-    @Async
-    public void readAndTransformOnce() {
+    public void readAndTransform() {
         try (Stream<Path> walk = Files.walk(etlProperties.getInputDirAsPath())) {
             EtlStatistics.resetStats();
 
@@ -65,6 +70,8 @@ public class WatcherTask {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            EtlStatistics.getFinished().set(true);
         }
     }
 

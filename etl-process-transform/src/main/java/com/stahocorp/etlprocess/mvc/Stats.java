@@ -10,6 +10,15 @@ public class Stats {
     private int opinionFilesProcessed;
     private int opinionsProcessed;
     private int infosProcessed;
+    private boolean finished;
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 
     public boolean isTaskEnabled() {
         return taskEnabled;

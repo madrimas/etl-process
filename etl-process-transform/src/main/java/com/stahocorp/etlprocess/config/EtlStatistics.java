@@ -4,6 +4,7 @@ import com.stahocorp.etlprocess.external.model.ExtractStatistics;
 import com.stahocorp.etlprocess.external.model.LoadStatistics;
 import com.stahocorp.etlprocess.mvc.Stats;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,13 +16,18 @@ public class EtlStatistics {
     public static AtomicInteger opinionFilesProcessed = new AtomicInteger(0);
     public static AtomicInteger infosProcessed = new AtomicInteger(0);
     public static AtomicInteger opinionsProcessed = new AtomicInteger(0);
+    public static AtomicBoolean finished = new AtomicBoolean(false);
 
-    private static LoadStatistics loadStatistics = new LoadStatistics(0,0,0,0);
+    private static LoadStatistics loadStatistics = new LoadStatistics(0,0,0,0, false);
 
-    private static ExtractStatistics extractStatistics = new ExtractStatistics(0,0,0,true);
+    private static ExtractStatistics extractStatistics = new ExtractStatistics(0,0,0,false);
 
     public static LoadStatistics getLoadStatistics() {
         return loadStatistics;
+    }
+
+    public static AtomicBoolean getFinished() {
+        return finished;
     }
 
     public static void setLoadStatistics(LoadStatistics loadStatistics) {
@@ -45,6 +51,7 @@ public class EtlStatistics {
         opinionsProcessed.set(0);
         infosFilesProcessed.set(0);
         opinionFilesProcessed.set(0);
+        finished.set(false);
     }
 
     /**
@@ -59,6 +66,7 @@ public class EtlStatistics {
         x.setOpinionFilesProcessed(EtlStatistics.opinionFilesProcessed.get());
         x.setInfosProcessed(EtlStatistics.infosProcessed.get());
         x.setOpinionsProcessed(EtlStatistics.opinionsProcessed.get());
+        x.setFinished(EtlStatistics.getFinished().get());
         return x;
     }
 }

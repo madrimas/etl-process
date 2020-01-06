@@ -6,6 +6,7 @@ import com.stahocorp.etlprocess.external.model.ExtractStatistics;
 import com.stahocorp.etlprocess.external.model.LoadStatistics;
 import com.stahocorp.etlprocess.external.rest.ExtractRestController;
 import com.stahocorp.etlprocess.external.rest.LoadRestController;
+import com.stahocorp.etlprocess.services.EtlService;
 import com.stahocorp.etlprocess.services.WatcherTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -20,6 +21,9 @@ public class TaskController {
 
     @Autowired
     private EtlProperties etlProperties;
+
+    @Autowired
+    private EtlService etlService;
 
     private @Autowired
     WatcherTask watcherTask;
@@ -65,7 +69,7 @@ public class TaskController {
      */
     @PostMapping(path = "/task", params = "runTransform")
     public String runOnce(Model model) {
-        watcherTask.readAndTransformOnce();
+        watcherTask.readAndTransformAsync();
         fillModelWithStatistics(model);
         return "task";
     }
@@ -107,6 +111,7 @@ public class TaskController {
     //TODO: implementation of whole processing
     @PostMapping(path = "/task", params = "triggerEtl")
     public String triggerEtl(Model model) {
+        etlService.triggerEtl();
         fillModelWithStatistics(model);
         return "task";
     }

@@ -5,6 +5,7 @@ public class LoadStatistics {
     private int modifiedProductsAmount;
     private int addedOpinionsAmount;
     private int modifiedOpinionsAmount;
+    private boolean finished;
 
     public LoadStatistics() {
     }
@@ -16,11 +17,20 @@ public class LoadStatistics {
      * @param addedOpinionsAmount - added Opinions Amount
      * @param modifiedOpinionsAmount - modified Opinions Amount
      */
-    public LoadStatistics(int addedProductsAmount, int modifiedProductsAmount, int addedOpinionsAmount, int modifiedOpinionsAmount) {
+    public LoadStatistics(int addedProductsAmount, int modifiedProductsAmount, int addedOpinionsAmount, int modifiedOpinionsAmount, boolean finished) {
         this.addedProductsAmount = addedProductsAmount;
         this.modifiedProductsAmount = modifiedProductsAmount;
         this.addedOpinionsAmount = addedOpinionsAmount;
         this.modifiedOpinionsAmount = modifiedOpinionsAmount;
+        this.finished = finished;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public int getAddedProductsAmount() {
