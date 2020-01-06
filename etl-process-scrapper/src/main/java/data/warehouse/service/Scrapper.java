@@ -31,6 +31,12 @@ public class Scrapper {
     private String hostname;
 
     /**
+     * Field to keep path for dirs storage, value come from src/main/java/resources/application.properties
+     */
+    @Value(value = "${path.to.keep.dirs}")
+    private String dirsStoragePath;
+
+    /**
      * Field to keep path for file storage, value come from src/main/java/resources/application.properties
      */
     @Value(value = "${path.to.write.files}")
@@ -144,6 +150,7 @@ public class Scrapper {
      */
     @Autowired
     private void setup() {
+        new File(dirsStoragePath).mkdirs();
         new File(fileStoragePath).mkdirs();
     }
 
