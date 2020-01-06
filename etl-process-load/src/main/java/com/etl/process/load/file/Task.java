@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Class responsible of load process
+ */
 @Component
 public class Task {
 

@@ -4,6 +4,9 @@ import com.etl.process.load.entity.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * enables communication with products from the database
+ */
 public interface ProductRepository extends MongoRepository<Product, String> {
 
 	/**

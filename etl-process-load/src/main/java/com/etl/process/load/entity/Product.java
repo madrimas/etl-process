@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Java representation of product
+ */
 @Getter
 @Setter
 public class Product {

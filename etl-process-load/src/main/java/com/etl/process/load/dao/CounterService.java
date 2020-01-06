@@ -12,6 +12,9 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+/**
+ * Service to generate id in mongoDB
+ */
 @Service
 public class CounterService {
 
@@ -23,7 +26,7 @@ public class CounterService {
 	}
 
 	/**
-	 *
+	 * generate db sequence method
 	 * @param seqName sequence name
 	 * @return next sequence number
 	 */

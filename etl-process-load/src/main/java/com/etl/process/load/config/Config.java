@@ -7,6 +7,9 @@ import org.springframework.context.annotation.PropertySource;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Load process configuration class
+ */
 @Configuration
 @PropertySource("classpath:application.properties")
 public class Config {
@@ -18,7 +21,7 @@ public class Config {
 	private String storedFilesDirectory;
 
 	/**
-	 *
+	 * method to get input directory for load process
 	 * @return input files directory path
 	 */
 	public Path getInputFilesDirectoryPath(){
@@ -26,7 +29,7 @@ public class Config {
 	}
 
 	/**
-	 *
+	 * method to get output directory for load process
 	 * @return stored files directory path
 	 */
 	public Path getStoredFilesDirectoryPath(){

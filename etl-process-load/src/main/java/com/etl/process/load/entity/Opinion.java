@@ -8,6 +8,9 @@ import org.springframework.data.annotation.Transient;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Java representation of opinion
+ */
 @Getter
 @Setter
 public class Opinion {

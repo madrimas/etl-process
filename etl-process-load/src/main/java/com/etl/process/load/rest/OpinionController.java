@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * rest controller for opinions
+ */
 @RestController
 @RequestMapping("/opinion")
 public class OpinionController {

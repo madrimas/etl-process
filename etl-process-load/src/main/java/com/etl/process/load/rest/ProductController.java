@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * rest controller for products
+ */
 @RestController
 @RequestMapping("/product")
 public class ProductController {

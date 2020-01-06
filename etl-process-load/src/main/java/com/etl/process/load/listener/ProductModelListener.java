@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventLis
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * product listener - used for id setting
+ */
 @Component
 public class ProductModelListener extends AbstractMongoEventListener<Product> {
 	private CounterService counterGenerator;

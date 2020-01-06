@@ -8,6 +8,9 @@ import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventLis
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * opinion listener - used for id setting
+ */
 @Component
 public class OpinionModelListener extends AbstractMongoEventListener<Opinion> {
 

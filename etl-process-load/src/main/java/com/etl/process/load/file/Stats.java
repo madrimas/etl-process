@@ -3,6 +3,9 @@ package com.etl.process.load.file;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Java representation of load process stats
+ */
 @Getter
 @Setter
 public class Stats {
