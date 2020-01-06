@@ -12,6 +12,7 @@
     <groupId>com.gaypowder</groupId>
     <artifactId>etl-process</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>etl-process-scrapper</module>
